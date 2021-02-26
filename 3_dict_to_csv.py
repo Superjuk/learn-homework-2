@@ -9,13 +9,31 @@
 2. Запишите содержимое списка словарей в файл в формате csv
 
 """
+import csv
+import random
+
+names = ['Mike', 'Peter', 'Anna', 'Maria', 'Natasha', 'Roman']
+job = ['worker', 'manager', 'director', 'programmer', 'tester', 'writer']
+
+def generate_workers_list():
+    list = []
+    for _ in range(6):
+        worker = {}
+        worker['name'] = random.choice(names)
+        worker['age'] = random.randint(21, 65)
+        worker['job'] = random.choice(job)
+        list.append(worker)
+    return list
 
 def main():
-    """
-    Эта функция вызывается автоматически при запуске скрипта в консоли
-    В ней надо заменить pass на ваш код
-    """
-    pass
+    with open('workers.csv', 'w', newline='') as csvfile:
+        fields = ['name', 'age', 'job']
+        writer = csv.DictWriter(csvfile, fieldnames=fields, delimiter=',')
+        
+        writer.writeheader()
+        workers = generate_workers_list()
+        for worker in workers:
+            writer.writerow(worker)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
